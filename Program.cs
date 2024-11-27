@@ -44,7 +44,9 @@ public class ProductList
             {
                 break;
             }
-
+            productList.Add(new ProductList(categoryInput, productNameInput, priceInput));
+            Console.WriteLine("The product was successfully added");
+            break;
 
         }
 
