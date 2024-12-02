@@ -3,7 +3,7 @@
 public class Program
 {
     List<ProductList> productList = new List<ProductList>();
-    public void AddProduct() // error handling to catch adding existing products
+    public void AddProduct()
     {
         while (true)
         {
@@ -11,7 +11,7 @@ public class Program
             Console.WriteLine("To enter a new product- follow the steps | To quit - enter:'Q'");
             Console.ResetColor();
 
-            Console.Write("Enter a category: "); // error handling to catch non-letters input
+            Console.Write("Enter a category: ");
             string categoryInput = Console.ReadLine().ToLower().Trim();
             if (categoryInput.ToUpper().Trim() == "Q")
             {
@@ -20,15 +20,27 @@ public class Program
             }
             Console.Write("Enter a Product Name: ");
             string productNameInput = Console.ReadLine().ToLower().Trim();
+            while (true)
+            {
+                Console.Write("Enter a Price: ");
+                double.TryParse(Console.ReadLine(), out double priceInput);
+                if (priceInput <= 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Invalid price! Price should be a number more than 0");
+                    Console.ResetColor();
 
-            Console.Write("Enter a Price: "); // make price to be float instead of integer
-            double.TryParse(Console.ReadLine(), out double priceInput);
-
-            productList.Add(new ProductList(categoryInput, productNameInput, priceInput));
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("The product was successfully added!");
-            Console.WriteLine("----------------------------------------------------------------------");
-            Console.ResetColor();
+                }
+                else
+                {
+                    productList.Add(new ProductList(categoryInput, productNameInput, priceInput));
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("The product was successfully added!");
+                    Console.WriteLine("----------------------------------------------------------------------");
+                    Console.ResetColor();
+                    break;
+                }
+            }
         }
     }
     public void SearchProduct()
@@ -42,7 +54,9 @@ public class Program
         }
         else
         {
+            Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Product not found.");
+            Console.ResetColor();
         }
     }
     public void ShowProductList(string searchedProduct = null)
