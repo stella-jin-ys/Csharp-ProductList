@@ -3,27 +3,33 @@
 public class Program
 {
     List<ProductList> productList = new List<ProductList>();
-    public void AddProduct()
+    public void AddProduct() // error handling to catch adding existing products
     {
-        Console.Write("Enter a category: ");
-        string categoryInput = Console.ReadLine().ToLower().Trim();
-        if (categoryInput.ToUpper().Trim() == "Q")
+        while (true)
         {
-            ShowProductList();
-            return;
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("To enter a new product- follow the steps | To quit - enter:'Q'");
+            Console.ResetColor();
+
+            Console.Write("Enter a category: "); // error handling to catch non-letters input
+            string categoryInput = Console.ReadLine().ToLower().Trim();
+            if (categoryInput.ToUpper().Trim() == "Q")
+            {
+                ShowProductList();
+                return;
+            }
+            Console.Write("Enter a Product Name: ");
+            string productNameInput = Console.ReadLine().ToLower().Trim();
+
+            Console.Write("Enter a Price: "); // make price to be float instead of integer
+            double.TryParse(Console.ReadLine(), out double priceInput);
+
+            productList.Add(new ProductList(categoryInput, productNameInput, priceInput));
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("The product was successfully added!");
+            Console.WriteLine("----------------------------------------------------------------------");
+            Console.ResetColor();
         }
-
-        Console.Write("Enter a Product Name: ");
-        string productNameInput = Console.ReadLine().ToLower().Trim();
-
-        Console.Write("Enter a Price: ");
-        int.TryParse(Console.ReadLine(), out int priceInput);
-
-        productList.Add(new ProductList(categoryInput, productNameInput, priceInput));
-        Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine("The product was successfully added!");
-        Console.WriteLine("----------------------------------------------------------------------");
-        Console.ResetColor();
     }
     public void SearchProduct()
     {
@@ -60,16 +66,14 @@ public class Program
             {
                 product.Print();
             }
-
         }
-        int totalPrice = productList.Sum(product => product.Price)
+        double totalPrice = productList.Sum(product => product.Price)
 
 ; Console.WriteLine("\n" + "".PadRight(30) + "Total amount: ".PadRight(30) + totalPrice);
         Console.WriteLine("----------------------------------------------------------------------");
 
         while (true)
         {
-
             Console.ForegroundColor = ConsoleColor.DarkCyan;
             Console.WriteLine("To enter a new product - enter: 'P' | To search for a product - enter: 'S' | To quit - enter: 'Q'");
             Console.ResetColor();
@@ -88,7 +92,7 @@ public class Program
                     Environment.Exit(0);
                     return;
                 default:
-                    Console.WriteLine("Please enter a valid options");
+                    Console.WriteLine("Please enter a valid option");
                     break;
             }
         }
@@ -97,14 +101,9 @@ public class Program
     public static void Main()
     {
         Program program = new Program();
-        while (true)
-        {
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine("To enter a new product- follow the steps | To quite - enter:'Q'");
-            Console.ResetColor();
 
-            program.AddProduct();
-        }
+        program.AddProduct();
+
     }
 }
 

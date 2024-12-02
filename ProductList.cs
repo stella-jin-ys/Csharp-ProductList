@@ -3,10 +3,10 @@ public class ProductList
     // properties
     public string Category { get; set; }
     public string ProductName { get; set; }
-    public int Price { get; set; }
+    public double Price { get; set; }
 
     // constructor
-    public ProductList(string category, string name, int price)
+    public ProductList(string category, string name, double price)
     {
         Category = category;
         ProductName = name;
